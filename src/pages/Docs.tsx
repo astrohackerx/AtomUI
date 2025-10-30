@@ -45,7 +45,7 @@ export default function Docs() {
                 : 'bg-transparent text-white border border-white/30 hover:border-white'
             }`}
           >
-            SAS Integration
+            Using SAS Client
           </button>
         </div>
 
@@ -709,11 +709,11 @@ async function mintExclusiveNFT(userPublicKey: PublicKey) {
               <h3 className="text-xl sm:text-2xl font-special mb-4">Installation</h3>
               <div className="bg-black border border-white/30 p-4 sm:p-6 overflow-x-auto">
                 <pre className="font-mono text-xs sm:text-sm text-green-400">
-{`npm install solana-attestation-service-client @solana/web3.js
+{`npm install sas-lib @solana/web3.js
 
 # or
 
-yarn add solana-attestation-service-client @solana/web3.js`}
+yarn add sas-lib @solana/web3.js`}
                 </pre>
               </div>
             </section>
@@ -723,62 +723,72 @@ yarn add solana-attestation-service-client @solana/web3.js`}
               <div className="bg-black border border-white/30 p-4 sm:p-6 overflow-x-auto">
                 <pre className="font-mono text-xs sm:text-sm text-blue-400">
 {`import { Connection, PublicKey } from '@solana/web3.js';
+import { SasClient } from 'sas-lib';
 
-// SAS Program ID (mainnet)
-const SAS_PROGRAM_ID = new PublicKey('22zoJMtdu4tQc2PzL74ZUT7FrwgB1Udec8DdW4yw4BdG');
+// Initialize connection
+const connection = new Connection('https://api.mainnet-beta.solana.com');
+
+// Create SAS client
+const sasClient = new SasClient(connection);
 
 // AtomID credential and schema (mainnet)
 const ATOMID_CREDENTIAL = new PublicKey('FwzkkBBBcW69tGhQCuuMry8SzS5zN886Qzjw8UDa1aAN');
-const ATOMID_SCHEMA = new PublicKey('J7nRQzymcR6sot5rLcRGBU5JfwVBhLVc9xNzsLnc2J4v');
-
-const connection = new Connection('https://api.mainnet-beta.solana.com');`}
+const ATOMID_SCHEMA = new PublicKey('J7nRQzymcR6sot5rLcRGBU5JfwVBhLVc9xNzsLnc2J4v');`}
                 </pre>
               </div>
             </section>
 
             <section className="bg-black/50 border border-white/20 p-6 sm:p-8 lg:p-10">
-              <h3 className="text-xl sm:text-2xl font-special mb-4">Derive Attestation PDA</h3>
+              <h3 className="text-xl sm:text-2xl font-special mb-4">Fetch AtomID Attestation</h3>
               <div className="bg-black border border-white/30 p-4 sm:p-6 overflow-x-auto mb-4">
                 <pre className="font-mono text-xs sm:text-sm text-blue-400">
-{`function getAttestationPDA(userPublicKey: PublicKey): [PublicKey, number] {
-  return PublicKey.findProgramAddressSync(
-    [
-      Buffer.from('attestation'),
-      ATOMID_CREDENTIAL.toBuffer(),
-      ATOMID_SCHEMA.toBuffer(),
-      userPublicKey.toBuffer(), // nonce = user's public key
-    ],
-    SAS_PROGRAM_ID
+{`// Fetch attestation for a user
+async function getAtomIdAttestation(userPublicKey: PublicKey) {
+  const attestation = await sasClient.getAttestation(
+    ATOMID_CREDENTIAL,
+    ATOMID_SCHEMA,
+    userPublicKey // nonce = user's public key
   );
+
+  if (!attestation) {
+    return null; // User has no AtomID attestation
+  }
+
+  return attestation;
 }
 
 // Usage
 const user = new PublicKey('...');
-const [attestationPDA, bump] = getAttestationPDA(user);
-console.log('Attestation PDA:', attestationPDA.toString());`}
+const attestation = await getAtomIdAttestation(user);
+if (attestation) {
+  console.log('Rank:', attestation.data.rank);
+  console.log('Total Burned:', attestation.data.totalBurned);
+}`}
                 </pre>
               </div>
               <div className="bg-purple-600/10 border border-purple-500/30 p-4 text-sm text-purple-300">
-                <strong>Note:</strong> The attestation PDA is derived using the user's public key as
-                the nonce, making it unique per user.
+                <strong>Note:</strong> The SAS client handles all PDA derivation and account fetching automatically.
               </div>
             </section>
 
             <section className="bg-black/50 border border-white/20 p-6 sm:p-8 lg:p-10">
-              <h3 className="text-xl sm:text-2xl font-special mb-4">Check if Attestation Exists</h3>
+              <h3 className="text-xl sm:text-2xl font-special mb-4">Check if User Has AtomID</h3>
               <div className="bg-black border border-white/30 p-4 sm:p-6 overflow-x-auto">
                 <pre className="font-mono text-xs sm:text-sm text-blue-400">
-{`async function hasAtomIdAttestation(userPublicKey: PublicKey): Promise<boolean> {
-  const [attestationPDA] = getAttestationPDA(userPublicKey);
+{`async function hasAtomId(userPublicKey: PublicKey): Promise<boolean> {
+  const attestation = await sasClient.getAttestation(
+    ATOMID_CREDENTIAL,
+    ATOMID_SCHEMA,
+    userPublicKey
+  );
 
-  const accountInfo = await connection.getAccountInfo(attestationPDA);
-  return accountInfo !== null;
+  return attestation !== null;
 }
 
 // Usage
 const user = new PublicKey('...');
-const hasAttestation = await hasAtomIdAttestation(user);
-console.log('Has AtomID attestation:', hasAttestation);`}
+const hasId = await hasAtomId(user);
+console.log('User has AtomID:', hasId);`}
                 </pre>
               </div>
             </section>
@@ -787,64 +797,55 @@ console.log('Has AtomID attestation:', hasAttestation);`}
               <h3 className="text-xl sm:text-2xl font-special mb-4">Read Attestation Data</h3>
               <div className="bg-black border border-white/30 p-4 sm:p-6 overflow-x-auto">
                 <pre className="font-mono text-xs sm:text-sm text-blue-400">
-{`async function getAtomIdAttestation(userPublicKey: PublicKey) {
-  const [attestationPDA] = getAttestationPDA(userPublicKey);
+{`async function getAtomIdData(userPublicKey: PublicKey) {
+  const attestation = await sasClient.getAttestation(
+    ATOMID_CREDENTIAL,
+    ATOMID_SCHEMA,
+    userPublicKey
+  );
 
-  const accountInfo = await connection.getAccountInfo(attestationPDA);
-  if (!accountInfo) {
+  if (!attestation) {
     return null;
   }
 
-  // Parse attestation data
-  // Format: 1 byte rank + 8 bytes total_burned + 8 bytes created_at_slot
-  const data = accountInfo.data;
-
-  // Skip account discriminator (8 bytes) and attestation metadata
-  // The actual data starts at a specific offset (check SAS docs for exact offset)
-  const dataOffset = 40; // Approximate - adjust based on SAS schema
-
-  const rank = data.readUInt8(dataOffset);
-  const totalBurned = data.readBigUInt64LE(dataOffset + 1);
-  const createdAtSlot = data.readBigUInt64LE(dataOffset + 9);
-
+  // SAS client automatically parses the attestation data
   return {
-    rank,
-    totalBurned: Number(totalBurned),
-    createdAtSlot: Number(createdAtSlot),
+    rank: attestation.data.rank,
+    totalBurned: attestation.data.totalBurned,
+    createdAtSlot: attestation.data.createdAtSlot,
   };
 }
 
 // Usage
 const user = new PublicKey('...');
-const attestation = await getAtomIdAttestation(user);
-if (attestation) {
-  console.log('Rank:', attestation.rank);
-  console.log('Total Burned:', attestation.totalBurned);
+const data = await getAtomIdData(user);
+if (data) {
+  console.log('Rank:', data.rank);
+  console.log('Total Burned:', data.totalBurned);
 }`}
                 </pre>
               </div>
             </section>
 
             <section className="bg-black/50 border border-white/20 p-6 sm:p-8 lg:p-10">
-              <h3 className="text-xl sm:text-2xl font-special mb-4">Verify AtomID via SAS (Simple)</h3>
+              <h3 className="text-xl sm:text-2xl font-special mb-4">Verify AtomID Rank</h3>
               <div className="bg-black border border-white/30 p-4 sm:p-6 overflow-x-auto">
                 <pre className="font-mono text-xs sm:text-sm text-blue-400">
 {`async function verifyAtomIdRank(
   userPublicKey: PublicKey,
   minimumRank: number
 ): Promise<boolean> {
-  try {
-    const attestation = await getAtomIdAttestation(userPublicKey);
+  const attestation = await sasClient.getAttestation(
+    ATOMID_CREDENTIAL,
+    ATOMID_SCHEMA,
+    userPublicKey
+  );
 
-    if (!attestation) {
-      return false; // No attestation = no AtomID
-    }
-
-    return attestation.rank >= minimumRank;
-  } catch (error) {
-    console.error('Verification failed:', error);
-    return false;
+  if (!attestation) {
+    return false; // No attestation = no AtomID
   }
+
+  return attestation.data.rank >= minimumRank;
 }
 
 // Example: DAO voting gate
@@ -853,9 +854,14 @@ if (!canVote) {
   alert('Rank 5 or higher required to participate in governance');
 }
 
-// Example: Tiered marketplace
-const attestation = await getAtomIdAttestation(userWallet);
-if (attestation && attestation.rank >= 7) {
+// Example: Tiered marketplace fees
+const attestation = await sasClient.getAttestation(
+  ATOMID_CREDENTIAL,
+  ATOMID_SCHEMA,
+  userWallet
+);
+
+if (attestation && attestation.data.rank >= 7) {
   console.log('Premium seller - 0% platform fees!');
 }`}
                 </pre>
@@ -902,42 +908,47 @@ if (attestation && attestation.rank >= 7) {
             </section>
 
             <section className="bg-gradient-to-r from-orange-600/20 to-white/10 border border-orange-500/30 p-6 sm:p-8 lg:p-10">
-              <h3 className="text-xl sm:text-2xl font-special mb-4">Complete Example: SAS-Based Access Control</h3>
+              <h3 className="text-xl sm:text-2xl font-special mb-4">Complete Example: Game with Rank-Based Items</h3>
               <div className="bg-black border border-white/30 p-4 sm:p-6 overflow-x-auto">
                 <pre className="font-mono text-xs sm:text-sm text-orange-400">
-{`// Example: Game that grants special items based on AtomID rank
+{`// Game that grants special items based on AtomID rank
 async function grantSpecialItem(userPublicKey: PublicKey) {
-  // Check if user has AtomID attestation
-  const attestation = await getAtomIdAttestation(userPublicKey);
+  const attestation = await sasClient.getAttestation(
+    ATOMID_CREDENTIAL,
+    ATOMID_SCHEMA,
+    userPublicKey
+  );
 
   if (!attestation) {
     throw new Error('AtomID required to play');
   }
 
+  const rank = attestation.data.rank;
+
   // Grant items based on rank
   let item: string;
-  if (attestation.rank >= 9) {
+  if (rank >= 9) {
     item = 'Legendary Eternal Sword';
-  } else if (attestation.rank >= 7) {
+  } else if (rank >= 7) {
     item = 'Mythic Sage Staff';
-  } else if (attestation.rank >= 5) {
+  } else if (rank >= 5) {
     item = 'Epic Oracle Amulet';
-  } else if (attestation.rank >= 3) {
+  } else if (rank >= 3) {
     item = 'Rare Guardian Shield';
   } else {
     item = 'Common Initiate Dagger';
   }
 
-  console.log(\`Granted: \${item} (Rank \${attestation.rank})\`);
+  console.log(\`Granted: \${item} (Rank \${rank})\`);
 
   return {
     item,
-    rank: attestation.rank,
-    totalBurned: attestation.totalBurned,
+    rank,
+    totalBurned: attestation.data.totalBurned,
   };
 }
 
-// No custom integration needed - works for any app using SAS!`}
+// That's it! Just 3 lines with sas-lib to verify identity.`}
                 </pre>
               </div>
             </section>
@@ -994,12 +1005,12 @@ async function grantSpecialItem(userPublicKey: PublicKey) {
                   <div className="text-white">Source code and examples →</div>
                 </a>
                 <a
-                  href="https://www.npmjs.com/package/solana-attestation-service-client"
+                  href="https://www.npmjs.com/package/sas-lib"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block bg-black border border-white/20 p-4 hover:border-white/60 transition-all"
                 >
-                  <div className="font-mono text-sm text-gray-400 mb-1">SAS NPM Package</div>
+                  <div className="font-mono text-sm text-gray-400 mb-1">SAS NPM Package (sas-lib)</div>
                   <div className="text-white">Install the official client →</div>
                 </a>
               </div>

@@ -19,6 +19,7 @@ import Leaderboard from './pages/Leaderboard';
 import HallOfFlame from './pages/HallOfFlame';
 import Docs from './pages/Docs';
 import Token from './pages/Token';
+import Atomrs from './pages/Atomrs';
 import { RPC_ENDPOINT } from './lib/constants';
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
                   <Route path="/hall-of-flame" element={<HallOfFlame />} />
                   <Route path="/docs" element={<Docs />} />
                   <Route path="/token" element={<Token />} />
+                  <Route path="/atomrs" element={<Atomrs />} />
                 </Routes>
               </main>
             </div>

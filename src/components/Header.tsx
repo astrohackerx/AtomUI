@@ -127,6 +127,9 @@ export default function Header() {
             <Link to="/hall-of-flame" className="hover:text-gray-400 transition-colors">
               Hall of Flame
             </Link>
+            <Link to="/atomrs" className="hover:text-gray-400 transition-colors">
+              ATOMRS
+            </Link>
             <Link to="/docs" className="hover:text-gray-400 transition-colors">
               Docs
             </Link>
@@ -232,6 +235,13 @@ export default function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Hall of Flame
+                </Link>
+                <Link
+                  to="/atomrs"
+                  className="hover:text-gray-400 transition-colors py-2 border-b border-white/10"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  ATOMRS
                 </Link>
                 <Link
                   to="/docs"

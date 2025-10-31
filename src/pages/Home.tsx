@@ -364,7 +364,7 @@ export default function Home() {
                   <span className="text-xs uppercase tracking-wider text-gray-400">
                     Distribution
                   </span>
-                  <span className="text-xl font-bold">Hourly</span>
+                  <span className="text-xl font-bold">Every 12 hrs</span>
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-xs uppercase tracking-wider text-gray-400">

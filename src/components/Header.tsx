@@ -81,7 +81,7 @@ export default function Header() {
                   onClick={() => setAtomIdDropdownOpen(!atomIdDropdownOpen)}
                   className="hover:text-gray-400 transition-colors flex items-center gap-1"
                 >
-                  ATOMID
+                  ATOM_ID
                   <svg
                     className={`w-4 h-4 transition-transform ${atomIdDropdownOpen ? 'rotate-180' : ''}`}
                     fill="none"
@@ -117,18 +117,23 @@ export default function Header() {
                         Upgrade
                       </Link>
                     ): null}
+                  <Link
+                      to="/leaderboard"
+                      className="block px-4 py-3 hover:bg-white/10 transition-colors border-b border-white/10"
+                      onClick={() => setAtomIdDropdownOpen(false)}
+                    >
+                      Registry
+                    </Link>
                   </div>
                 )}
               </div>
            
-            <Link to="/leaderboard" className="hover:text-gray-400 transition-colors">
-              REGISTRY
-            </Link>
+       
             <Link to="/hall-of-flame" className="hover:text-gray-400 transition-colors">
               Hall of Flame
             </Link>
             <Link to="/atomrs" className="hover:text-gray-400 transition-colors">
-              ATOMRS
+              ATOM_RS
             </Link>
             <Link to="/docs" className="hover:text-gray-400 transition-colors">
               Docs

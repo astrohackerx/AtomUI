@@ -103,7 +103,7 @@ export default function Atomrs() {
     <div className="fade-in min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-[clamp(48px,8vw,80px)] font-special mb-4">ATOMRS</h1>
+          <h1 className="text-[clamp(48px,8vw,80px)] font-special mb-4">ATOM_RS</h1>
           <p className="text-xl text-gray-400">
             Autonomous Token Ownership & Merit Reward System
           </p>

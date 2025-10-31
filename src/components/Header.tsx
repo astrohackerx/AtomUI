@@ -67,7 +67,7 @@ export default function Header() {
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8">
           <div className="flex items-center gap-8 text-sm uppercase tracking-wider font-mono">
             <Link to="/" className="hover:text-gray-400 transition-colors">
               Home
@@ -138,7 +138,7 @@ export default function Header() {
         </div>
 
         <button
-          className="md:hidden flex flex-col gap-1.5 w-7 z-[60] relative"
+          className="lg:hidden flex flex-col gap-1.5 w-7 z-[60] relative"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >

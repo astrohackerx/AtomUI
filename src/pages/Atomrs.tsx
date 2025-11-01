@@ -105,7 +105,7 @@ export default function Atomrs() {
         <div className="text-center mb-12">
           <h1 className="text-[clamp(48px,8vw,80px)] font-special mb-4">ATOM_RS</h1>
           <p className="text-xl text-gray-400">
-            Autonomous Token Ownership & Merit Reward System
+            Autonomous Reward System
           </p>
         </div>
 
@@ -208,7 +208,7 @@ export default function Atomrs() {
             <div className="mt-8 bg-white/5 border border-white/10 p-6">
               <h3 className="text-lg font-special mb-4">About ATOMRS</h3>
               <p className="text-gray-400 leading-relaxed mb-4">
-                The Autonomous Token Ownership & Merit Reward System automatically
+                The Autonomous Reward System automatically
                 collects trading fees from the ATOM token and distributes them to
                 AtomID holders based on their burn rank and $ATOM burned. The system runs every 12
                 hours, ensuring continuous rewards for believers.

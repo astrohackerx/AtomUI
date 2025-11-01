@@ -17,7 +17,7 @@ const NETWORK_CONFIG = {
     programId: 'rnc2fycemiEgj4YbMSuwKFpdV6nkJonojCXib3j2by6',
     atomMint: '6KeQaJXFHczWKjrcXdMGKP773JKQmMWDXy4446adpump',
     minCreateBurn: 1000000000,
-    rpcEndpoint: 'https://broken-fittest-wave.solana-mainnet.quiknode.pro/93f43b5d1f507f1468eeafccc4c861ce5e7bbe03/',
+    rpcEndpoint: 'https://mainnet.helius-rpc.com/?api-key=d2f0c21c-e764-4eb6-9ed6-8f2f94172a1f',
     sasCredential: 'FwzkkBBBcW69tGhQCuuMry8SzS5zN886Qzjw8UDa1aAN',
     sasSchema: 'J7nRQzymcR6sot5rLcRGBU5JfwVBhLVc9xNzsLnc2J4v',
   },

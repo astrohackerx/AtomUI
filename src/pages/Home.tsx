@@ -341,12 +341,30 @@ export default function Home() {
               <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
                 Permanent, soulbound cryptographic identity minted only through
                 irreversible burning of ATOM. Cannot be sold, moved, or
-                replaced. Each identity is immutable, transparent, and owned by no one.
+                replaced. Each identity is immutable, transparent, and owned by no one. AtomID is your Cypherpunk Soul on Solana.
               </p>
             </div>
             <div className="bg-black/50 border border-white/20 p-6 sm:p-8 lg:p-10 hover:border-white/60 hover:-translate-y-1 transition-all relative">
               <div className="absolute top-4 right-4 sm:top-5 sm:right-5 text-3xl sm:text-4xl lg:text-5xl text-white/10 font-bold font-special">
                 02
+              </div>
+              <h4 className="text-2xl sm:text-3xl font-special mb-2">SAS Integration</h4>
+              <p className="text-sm uppercase tracking-wider text-gray-400 mb-5">
+                Solana Attestation Service
+              </p>
+              <p className="text-sm sm:text-base text-gray-400 leading-relaxed mb-4">
+                AtomID is the <strong className="text-white">first PDA-owned attestation issuer</strong> in
+                the Solana ecosystem. Through direct integration with SAS, we enable
+                universal identity verification across all Solana dApps.
+              </p>
+              <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
+                Any DEX, DAO, marketplace, or dApp can instantly
+                read and verify AtomID ranks through the SAS standard.
+              </p>
+            </div>
+              <div className="bg-black/50 border border-white/20 p-6 sm:p-8 lg:p-10 hover:border-white/60 hover:-translate-y-1 transition-all relative">
+              <div className="absolute top-4 right-4 sm:top-5 sm:right-5 text-3xl sm:text-4xl lg:text-5xl text-white/10 font-bold font-special">
+                03
               </div>
               <h4 className="text-2xl sm:text-3xl font-special mb-2">
                 Autonomous Reward System
@@ -373,25 +391,6 @@ export default function Home() {
                   <span className="text-xl font-bold">SOL</span>
                 </div>
               </div>
-            </div>
-            <div className="bg-black/50 border border-white/20 p-6 sm:p-8 lg:p-10 hover:border-white/60 hover:-translate-y-1 transition-all relative">
-              <div className="absolute top-4 right-4 sm:top-5 sm:right-5 text-3xl sm:text-4xl lg:text-5xl text-white/10 font-bold font-special">
-                03
-              </div>
-              <h4 className="text-2xl sm:text-3xl font-special mb-2">SAS Integration</h4>
-              <p className="text-sm uppercase tracking-wider text-gray-400 mb-5">
-                Solana Attestation Service
-              </p>
-              <p className="text-sm sm:text-base text-gray-400 leading-relaxed mb-4">
-                AtomID is the <strong className="text-white">first PDA-owned attestation issuer</strong> in
-                the Solana ecosystem. Through direct integration with SAS, we enable
-                universal identity verification across all Solana dApps.
-              </p>
-              {/* <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
-                Any DEX, DAO, marketplace, game, or social platform can instantly
-                read and verify AtomID ranks through the SAS standard — no custom
-                integration needed. Trust becomes portable.
-              </p> */}
             </div>
           </div>
         </div>

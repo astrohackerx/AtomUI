@@ -128,13 +128,13 @@ export default function Header() {
                 )}
               </div>
            
-       
+          <Link to="/atomrs" className="hover:text-gray-400 transition-colors">
+              ATOM_RS
+            </Link>
             <Link to="/hall-of-flame" className="hover:text-gray-400 transition-colors">
               Hall of Flame
             </Link>
-            <Link to="/atomrs" className="hover:text-gray-400 transition-colors">
-              ATOM_RS
-            </Link>
+         
             <Link to="/docs" className="hover:text-gray-400 transition-colors">
               Docs
             </Link>

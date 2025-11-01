@@ -175,6 +175,15 @@ export default function Home() {
               <span className="text-xl">⚡</span>
               <span className="font-mono">GitHub</span>
             </a>
+                <a
+              href="https://lostatom.medium.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 bg-black/50 border border-white/20 hover:border-white/60 transition-all text-sm sm:text-base"
+            >
+              <span className="text-xl">M</span>
+              <span className="font-mono">Medium</span>
+            </a>
             <a
               href="https://bitcointalk.org/index.php?topic=5558926"
               target="_blank"
